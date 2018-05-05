@@ -24,7 +24,7 @@ import com.services.ProjectService;
 
 
 @Controller
-@CrossOrigin(origins = "http://localhost:3001")
+@CrossOrigin(origins = "*")
 public class ProjectController {
 	
 	@Autowired

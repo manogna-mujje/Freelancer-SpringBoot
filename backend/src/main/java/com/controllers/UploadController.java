@@ -31,14 +31,13 @@ public class UploadController {
 	@PostMapping("/upload")
 	public ResponseEntity<Object>  handleFileUpload(@RequestParam("file") MultipartFile file) {
 		try {
-			System.out.println(file.getOriginalFilename());
 			storageService.store(file);
 			files.add(file.getOriginalFilename());
-			return new ResponseEntity<>("File is uploaded successfully", HttpStatus.OK);
 		} catch (Exception e) {
 			System.out.println("FAIL to upload picture");
-			return new ResponseEntity<>("File is uploaded successfully", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
+		return new ResponseEntity<>("File is uploaded successfully", HttpStatus.OK);
 	}	
 	
 	@GetMapping("/files/{filename:.+}")

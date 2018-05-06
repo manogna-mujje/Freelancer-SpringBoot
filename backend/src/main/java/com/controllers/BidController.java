@@ -1,5 +1,9 @@
 package com.controllers;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 //import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -41,11 +45,18 @@ public class BidController {
 	
 	//Get My Bids
 		@PostMapping(path="/myBids",produces = MediaType.APPLICATION_JSON_VALUE)
-	    public @ResponseBody Iterable<Bid> getMyBids(HttpSession session) {
+	    public @ResponseBody List<Object> getMyBids(HttpSession session) {
 			if(session.getAttribute("name") == null) {
 				return null;
 			}
 	        return bidService.getMyBids(session.getAttribute("name").toString());
+	    }
+		
+		
+		//Get My Bids
+		@PostMapping(path="/avgBid",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	    public @ResponseBody float getAvgBid(@RequestBody Bid bid, HttpSession session) {
+	        return bidService.getAvgBid(bid);
 	    }
 	
 //	//Get Bid By Id
@@ -53,5 +64,6 @@ public class BidController {
 //    public @ResponseBody List<Project> getProject(@RequestBody Project project) {
 //        return bidService.getProject(project.getId());
 //    }
+		
 }
 

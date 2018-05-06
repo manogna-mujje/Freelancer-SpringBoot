@@ -65,17 +65,17 @@ public class UserController {
         return userService.getProfile(session.getAttribute("name").toString());
     }
 	
-	 @PostMapping(path="/updateProfile",consumes = MediaType.APPLICATION_JSON_VALUE)
-	    @CrossOrigin(origins = "http://localhost:8080")
-	    public ResponseEntity<Object> updateProfile(@RequestBody User user, HttpSession session)
-	    {
-		 	if(userService.updateProfile(user, session.getAttribute("name").toString())) {
-	        	return new ResponseEntity("User profile updated successfully", HttpStatus.OK);
-	        }
-	        else {
-	        	 return new ResponseEntity(HttpStatus.BAD_REQUEST);
-	        }
-	    }
+	@PostMapping(path="/updateProfile",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @CrossOrigin(origins = "http://localhost:8080")
+    public ResponseEntity<Object> updateProfile(@RequestBody User user, HttpSession session)
+    {
+	 	if(userService.updateProfile(user, session.getAttribute("name").toString())) {
+        	return new ResponseEntity(HttpStatus.OK);
+        }
+        else {
+        	 return new ResponseEntity(HttpStatus.BAD_REQUEST);
+        }
+    }
 	 
 	 
     @PostMapping(path="/login",consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -103,16 +103,17 @@ public class UserController {
     }
     
 	
-    @GetMapping(value="/checkSession")
+    @PostMapping(value="/checkSession")
     @CrossOrigin(origins = "http://localhost:8080")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<?> checkSession(HttpSession session) {
 		System.out.println("Session check started");
 		 System.out.println(session.getAttribute("name"));
+		 System.out.println(userService.getProfile(session.getAttribute("name").toString()));
 		if(session.getAttribute("name") != null) {
-			return new ResponseEntity(HttpStatus.OK);
+			return new ResponseEntity(userService.getProfile(session.getAttribute("name").toString()), HttpStatus.OK);
 		} else {
-			return new ResponseEntity(HttpStatus.BAD_REQUEST);
+			return new ResponseEntity(null, HttpStatus.BAD_REQUEST);
 		}
         
     }

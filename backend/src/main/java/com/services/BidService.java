@@ -1,10 +1,11 @@
 package com.services;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import com.repositories.BidRepository;
 import com.entities.Bid;
-import com.entities.Project;
+
 
 import java.util.List;
 
@@ -22,12 +23,17 @@ public class BidService {
         return bidRepository.findByProjectId(projectId);
     }
 	
-	public Iterable<Bid> getMyBids(String freelancer){
+	public List<Object> getMyBids(String freelancer){
         return bidRepository.findByFreelancer(freelancer);
     }
 	
 	public List<Bid> getBid(Integer id){
 		return bidRepository.findById(id);
+	}
+	
+	@Transactional
+	public float getAvgBid(Bid bid){
+		return bidRepository.getAvgBid(bid.getProjectId());
 	}
 
 }

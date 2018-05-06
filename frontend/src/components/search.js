@@ -11,8 +11,7 @@ class Search extends Component {
             initialItems: [],
             currentPage: 1,
             itemsPerPage: 4,
-            items: [],
-            tempAvg: 0
+            items: []
         }
         console.log(this.props);
         this.filterList = this.filterList.bind(this);
@@ -68,8 +67,7 @@ class Search extends Component {
                     employer : element[4],
                     status : element[5],
                     skills : element[6],
-                    bidAmount : element[7],
-                    avgBid: this.state.tempAvg
+                    bidAmount : element[7]
                   }
                   objArray.push(obj);
                 });

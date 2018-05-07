@@ -32,7 +32,9 @@ public class ProjectController {
 	
 	@PostMapping(path="/postProject",consumes = MediaType.APPLICATION_JSON_VALUE) // Map ONLY POST Requests
 	public  ResponseEntity<?> addProject (@RequestBody Project project, HttpSession session) {
+		System.out.println("Add Project API");
 		project.setEmployer(session.getAttribute("name").toString());
+		project.setStatus("open");
 		projectService.addProject(project);
         return new ResponseEntity(null,HttpStatus.CREATED);
    }
@@ -57,6 +59,8 @@ public class ProjectController {
 	//Get Project By Id
 	@PostMapping(path="/showProjectDetails",produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<Project> getProject(@RequestBody Project project) {
+		System.out.println("Show Project Details API");
+		System.out.println(project.getId());
         return projectService.getProject(project.getId());
     }
 }

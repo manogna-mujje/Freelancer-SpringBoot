@@ -19,6 +19,7 @@ class Project extends Component {
         super(props);
         this.state = {
             user: '',
+            projectName: '',
             bids: [],
             isAsc: false,
             description: "",
@@ -40,35 +41,37 @@ class Project extends Component {
     }
 
     componentDidMount(){
+        let resultArray = this.props.match.params.name.split("-");
         this.props.checkSession().then((res)=> {
             console.log('Check Session');
             this.setState({
-                user: this.props.currentUser
+                user: JSON.stringify(this.props.currentUser)
             })
         }).then(()=>{
             console.log('THIS USER: ')
             console.log(this.state.user);
         });
 
-        this.props.bidsTabClick(this.props.match.params.name).then((data)=> {
-            let bidArray = JSON.stringify(data);
+        this.props.bidsTabClick(resultArray[0]).then((data)=> {
+            console.log(data);
+            let bidArray = JSON.stringify(data.value);
             let bidObj = JSON.parse(bidArray);
             this.setState({
-                bids: bidObj.value.value
+                bids:data.value
             });
             document.getElementById('Bids').style.display = "block";
             document.getElementById('Project-Details').style.display = "none";
         });
 
-        this.props.detailsTabClick(this.props.match.params.name).then((data)=>{
-            console.log(`This PROJECT: ${JSON.stringify(JSON.parse(this.props.details.list).postedProjects[0])}`);
-
+        this.props.detailsTabClick(resultArray[0]).then((data)=>{
+            console.log(`This PROJECT: Details Tab Click`);
+            console.log(data.value);
             this.setState({
-                status: JSON.parse(this.props.details.list).postedProjects[0].status,
-                description: JSON.parse(this.props.details.list).postedProjects[0].description,
-                budget: JSON.parse(this.props.details.list).postedProjects[0].budget,
-                skills: JSON.parse(this.props.details.list).postedProjects[0].skills,
-                employer: JSON.parse(this.props.details.list).postedProjects[0].owner
+                status: data.value.status,
+                description: data.value.description,
+                budget: data.value.budget,
+                skills: data.value.skills,
+                employer: data.value.employer
             });
             if(JSON.parse(this.props.details.list).postedProjects[0].hired){
                 this.setState({
@@ -109,7 +112,7 @@ class Project extends Component {
         data.append('filename', this.props.user);
         API.upload(data).then((response) => {
             response.json().then((body) => {
-              this.setState({ fileURL: `http://54.151.54.81:3001/${body.file}` });
+              this.setState({ fileURL: `http://localhost:3001/${body.file}` });
             });
           });
     }
@@ -122,36 +125,6 @@ class Project extends Component {
         } else if(event.target.id === 'project-details-button') {
             document.getElementById('Project-Details').style.display = "block";
             document.getElementById('Bids').style.display = "none";
-            // this.props.detailsTabClick(this.props.match.params.name).then((data)=>{
-            //     console.log(`This PROJECT: ${JSON.stringify(JSON.parse(this.props.details.list).postedProjects[0])}`);
-    
-            //     this.setState({
-            //         status: JSON.parse(this.props.details.list).postedProjects[0].status,
-            //         description: JSON.parse(this.props.details.list).postedProjects[0].description,
-            //         budget: JSON.parse(this.props.details.list).postedProjects[0].budget,
-            //         skills: JSON.parse(this.props.details.list).postedProjects[0].skills,
-            //         employer: JSON.parse(this.props.details.list).postedProjects[0].owner
-            //     });
-            //     if(JSON.parse(this.props.details.list).postedProjects[0].hired){
-            //         this.setState({
-            //             freelancer: JSON.parse(this.props.details.list).postedProjects[0].hired[0].freelancer,
-            //             salary: JSON.parse(this.props.details.list).postedProjects[0].hired[0].bidAmount
-            //         })
-            //     }
-           
-            //Verify if project name exists in the object of assigned projects of the user
-
-            // if(this.state.user.username === this.state.employer) {
-            //     this.setState({
-            //         isEmployer: true,
-            //         isUser: false
-            //     });
-            // } else if(this.state.user.assignedProjects && this.props.match.params.name in this.state.user.assignedProjects) {
-            //     this.setState({
-            //         isFreelancer: true,
-            //         isUser: false 
-            //     });
-            // }
                 console.log(this.state.isEmployer);
                 console.log(this.state.isFreelancer);
                 console.log(this.state.isUser);
@@ -163,13 +136,8 @@ class Project extends Component {
     }
 
     render(){
+        console.log('PROJECT NAME:')
         let bidItems, bidsLength, bidAvg, num = 1;
-        console.log(`CURRENT USER: ${this.state.user}`);
-        console.log(this.state.bids);
-        console.log(this.state.freelancer);
-        console.log(this.state.salary);
-
-        
         if(this.state.bids !== [] && typeof(this.state.bids) !== 'undefined'){
 
             // Sorting Bid Items
@@ -199,12 +167,15 @@ class Project extends Component {
 
         let linkToEmployer;
         linkToEmployer = '/profile/'+ this.state.employer;
+
+        let resultArray = this.props.match.params.name.split("-");
+        
         return (
             <div className="project-details">
             <br/>
                 <NavBar user={this.state.user.username} /> 
                 <div id = "project-title"> 
-                    {this.props.match.params.name}
+                    {resultArray[1]}
                 </div>
                 <div id= "bid-summary"> 
                 <ul>
@@ -234,11 +205,11 @@ class Project extends Component {
                     </div>
                     <div id="Project-Details" className="tabcontent">
                         <br/>
-                        <i> Project Description: </i>  <br/> {this.state.description} <br/> <br/>
-                        <i> Estimated Budget: </i>  <br/> {this.state.budget} <br/> <br/>
-                        <i> Skills: </i>  <br/> {this.state.skills} <br/> <br/>
-                        <i> Employer: </i> <br /> <Link to={linkToEmployer}> {this.state.employer} </Link> <br /> <br />
-                        <i> Status: </i> <br/> {this.state.status} <br/>
+                        <i> <strong> Project Description:</strong> </i>  <br/> {this.state.description} <br/> <br/>
+                        <i> <strong>Estimated Budget: </strong> </i>  <br/> ${this.state.budget} <br/> <br/>
+                        <i> <strong> Skills: </strong> </i>  <br/> {this.state.skills} <br/> <br/>
+                        <i> <strong> Employer: </strong> </i> <br /> <Link to={linkToEmployer}> {this.state.employer} </Link> <br /> <br />
+                        <i> <strong> Status: </strong> </i> <br/> {this.state.status} <br/>
                         <br/>
                         <div className="row">
                             <div className="col-sm-9">
@@ -287,8 +258,8 @@ class Project extends Component {
 
 function mapStateToProps(state){
     return({
-        bids: state.bids,
-        details: state.details,
+        bids: state.bids.list,
+        details: state.details.list,
         currentUser: state.session.user
     });
 }

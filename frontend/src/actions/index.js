@@ -59,7 +59,9 @@ export const bidsTabClick = (project) => ({
 	payload: new Promise((resolve, reject) => {
 		API.showBids(project).then(response => {
 			console.log('resolving response');
+			console.log(response);
 			response.json().then((data) => {
+				console.log(data);
 				resolve(data);
 			})
 			  }).catch((err) => {
@@ -75,7 +77,7 @@ export const detailsTabClick = (project) => ({
 			console.log('resolving response');
 			response.json().then((data)=> {
 				console.log(data);
-				resolve(data);
+				resolve(data[0]);
 			})
 			  }).catch((err) => {
 				  reject(err);

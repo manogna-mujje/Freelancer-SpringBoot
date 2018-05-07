@@ -104,7 +104,6 @@ export const checkSession = function (){
 };
 
 export const postProject = function (title, description, skills, budget){
-    // console.log('Project owner: ' + owner);
     url = `${api}/postProject`;
     return fetch(url, {
               method: 'POST',
@@ -114,7 +113,7 @@ export const postProject = function (title, description, skills, budget){
               },
               credentials: 'include',
               body: JSON.stringify({
-                title, 
+                projectName: title, 
                 description, 
                 skills, 
                 budget
@@ -153,7 +152,7 @@ export const postProject = function (title, description, skills, budget){
               },
               credentials: 'include',
               body: JSON.stringify({
-                project: project
+                projectId: parseInt(project)
               })
             }) 
   };
@@ -169,7 +168,7 @@ export const postProject = function (title, description, skills, budget){
               },
               credentials: 'include',
               body: JSON.stringify({
-                project: project
+                id: parseInt(project)
               })
             }) 
   };
@@ -264,22 +263,6 @@ export const makePayment = function (project, freelancer, amount){
             })
           })
 };
-
-// /* View Transaction Details */
-// export const viewTransactionHistory = function (project, employer){
-//   url = `${api}/viewTransactionHistory`;
-//   return fetch(url, {
-//             method: 'POST',
-//             headers: {
-//               'Accept': 'application/json',
-//               'Content-Type': 'application/json',
-//             },
-//             credentials: 'include',
-//             body: JSON.stringify({
-//               project, employer
-//             })
-//           });
-// };
 
 /* Withdraw amount */
 

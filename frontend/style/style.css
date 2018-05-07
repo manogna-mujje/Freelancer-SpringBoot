@@ -497,3 +497,28 @@ div#hire-button {
 
   margin-left: -200px;
 }
+
+.nav button {
+  background-color: #ff7b00;
+  padding: 10px;
+  border: none;
+  border-radius: 3px;
+  color: #f1f1f1; 
+  
+}
+
+#right-links li {
+  float: right;
+}
+
+#left-links li {
+  float: left;
+}
+
+.nav .nav-item {
+  float: right;
+}
+
+.nav li {
+  float: right;
+}

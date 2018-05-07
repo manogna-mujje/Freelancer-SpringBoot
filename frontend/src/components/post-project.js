@@ -33,9 +33,10 @@ class PostProject extends Component {
     handleSubmit(event){
         API.postProject(this.refs.title.value, this.refs.description.value, this.refs.skills.value, this.refs.range.value)
         .then((res) => {
-            if(res.status === 200){
+            console.log(res);
+            if(res.status === 201){
                 console.log('Push to different page');
-                this.props.history.push('/projects/' + this.refs.title.value);
+                this.props.history.push('/dashboard');
             } else {
                 document.getElementById('error-post-project').style.display = "block";
             }
@@ -68,11 +69,6 @@ class PostProject extends Component {
                         <label> <div> What skills are required?  </div></label> <br />
                         <p> Enter up to 5 skills that best describe your project. Freelancers will use these skills to find projects they are most interested and experienced in..</p>
                         <input ref="skills" placeholder="What skills are required?" />
-                    </div>
-                    <div  id="payment">
-                        <label> <div> How do you want to pay?  </div></label> <br />
-                        <input type="radio" name="paymode" value="fixed"> Fixed price </input> <br/>
-                        <input type="radio" name="paymode" value="hourly"> Hourly </input>
                     </div>
                     <div className="Fields" id="budget">
                         <label> <div> What is your estimated budget?  </div></label> <br />

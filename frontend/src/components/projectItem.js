@@ -29,7 +29,8 @@ class ProjectItem extends Component {
   }
 
   render() {
-    let projectName = this.props.project.projectName;
+    console.log(this.props.project.id);
+    let projectName = this.props.project.id + '-' + this.props.project.projectName;
     let linkToProject = '/projects/'+ projectName;
     let projectOwner = this.props.project.employer;
     let linkToOwner = '/profile/' + projectOwner;

@@ -40,8 +40,6 @@ class Login extends Component {
 
     handleSubmit(event){
         this.props.loginAccount(this.state.username, this.state.password).then((data)=> {
-            // console.log(data);
-            // console.log(this.props.loginOutput.isFulfilled);
             if(this.props.loginOutput.isFulfilled){
                     this.props.history.push({
                         pathname: '/profile/' + this.props.loginOutput.username

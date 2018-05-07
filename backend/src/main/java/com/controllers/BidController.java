@@ -40,6 +40,8 @@ public class BidController {
 	//Get All Bids of a project
 	@PostMapping(path="/showBids",produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody Iterable<Bid> getAllBids(@RequestBody Bid bid) {
+		System.out.println("Show Bids API");
+		System.out.println(bid.getProjectId());
         return bidService.getAllBids(bid.getProjectId());
     }
 	

@@ -39,14 +39,14 @@ public class ProjectController {
 	
 	//Get All Projects
 	@GetMapping(path="/showProjects",produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Iterable<Project> getAllProjects() {
+    public @ResponseBody List<Object> getAllProjects() {
         return projectService.getAllProjects();
     }
 	
 	
 	//Get My Projects
 	@PostMapping(path="/myProjects",produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody Iterable<Project> getMyProjects(HttpSession session) {
+    public @ResponseBody List<Object> getMyProjects(HttpSession session) {
 		if(session.getAttribute("name") == null) {
 			return null;
 		}

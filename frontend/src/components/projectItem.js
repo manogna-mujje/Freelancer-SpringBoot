@@ -49,9 +49,13 @@ class ProjectItem extends Component {
                    <Link to={linkToOwner}> {this.props.project.employer} </Link> </p> 
                   <p> <i> <strong> Status: </strong></i> <br/>
                   {this.props.project.status} </p> <br/>
+                  <p> <i> <strong> Average Bid: </strong></i> <br/>
+                ${this.props.project.avgBid} </p> <br/>
+                <p> <i> <strong> Number of bids yet: </strong></i> <br/>
+                {this.props.project.totalBids} </p> <br/>
                   {
                     this.props.project.bidAmount ? 
-                     <p> <i>  <strong> Bid Amount: </strong> </i> <br/>
+                     <p> <i>  <strong> My Bid Amount: </strong> </i> <br/>
                      $ {this.props.project.bidAmount} </p> : null
                   }
                   <br/>

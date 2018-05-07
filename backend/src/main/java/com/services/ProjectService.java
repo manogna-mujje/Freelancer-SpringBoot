@@ -16,11 +16,11 @@ public class ProjectService {
 		projectRepository.save(project);
 	}
 	
-	public Iterable<Project> getAllProjects(){
+	public List<Object> getAllProjects(){
         return projectRepository.findByStatus("open");
     }
 	
-	public Iterable<Project> getMyProjects(String employer){
+	public List<Object> getMyProjects(String employer){
         return projectRepository.findByEmployer(employer);
     }
 	

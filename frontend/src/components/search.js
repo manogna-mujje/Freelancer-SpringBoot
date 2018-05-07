@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import ProjectItem from './projectItem';
 import NavigationBar from './navigationBar';
 import * as API from '../APIs/api';
-// import { resolve } from 'dns';
 
 class Search extends Component {
     constructor(props){
@@ -11,7 +10,8 @@ class Search extends Component {
             initialItems: [],
             currentPage: 1,
             itemsPerPage: 4,
-            items: []
+            items: [],
+            tempAvg: 0
         }
         console.log(this.props);
         this.filterList = this.filterList.bind(this);
@@ -29,56 +29,88 @@ class Search extends Component {
     componentWillMount(){
       API.showProjects().then((res) => {
         res.json().then((data) => {
-            this.setState({
-              items: data,
-              initialItems: data
-            })
+          let obj, objArray = [];
+          data.forEach(element => {
+          obj = {
+            id : element[3],
+            avgBid: element[1] === null ? 0 : element[1],
+            totalBids: element[2] === null ? 0 : element[2],
+            budget : element[4],
+            description : element[5],
+            projectName : element[6],
+            employer : element[7],
+            status : element[8],
+            skills : element[9]
+          }
+          objArray.push(obj);
+        });
+        return objArray;
+        }).then((objArray)=>{
+          this.setState({
+               initialItems: objArray,
+               items: objArray
         })
       })
-    }
+    })
+  }
 
     handleMyProjects(){
         console.log('My projects function');
         API.myProjects().then((res)=>{
             res.json().then((data) => {
-                this.setState({
-                  initialItems: data,
-                  items: data
-                })
-            }).catch(()=>{
-              this.setState({
-                initialItems: [], items: []
-              })
-            })
-        })
-    }
-
-    handleMyBids(){
-        console.log('My Bids function');
-        API.myBids().then((res)=>{
-            res.json().then((data) => {
               let obj, objArray = [];
-                  data.forEach(element => {
-                  obj = {
-                    id : element[0],
-                    budget : element[1],
-                    description : element[2],
-                    projectName : element[3],
-                    employer : element[4],
-                    status : element[5],
-                    skills : element[6],
-                    bidAmount : element[7]
-                  }
-                  objArray.push(obj);
-                });
-                return objArray;
+              data.forEach(element => {
+              obj = {
+                id : element[3],
+                avgBid: element[1] === null ? 0 : element[1],
+                totalBids: element[2] === null ? 0 : element[2],
+                budget : element[4],
+                description : element[5],
+                projectName : element[6],
+                employer : element[7],
+                status : element[8],
+                skills : element[9]
+              }
+              objArray.push(obj);
+            });
+            return objArray;
             }).then((objArray)=>{
               this.setState({
                    initialItems: objArray,
                    items: objArray
-               })
-           })
+            })
         })
+    })
+  }
+
+    handleMyBids(){
+      console.log('My Bids function');
+      API.myBids().then((res)=>{
+          res.json().then((data) => {
+            let obj, objArray = [];
+                data.forEach(element => {
+                obj = {
+                  id : element[0],
+                  avgBid: element[1],
+                  totalBids: element[2],
+                  budget : element[4],
+                  description : element[5],
+                  projectName : element[6],
+                  employer : element[7],
+                  status : element[8],
+                  skills : element[9],
+                  bidAmount : element[10]
+                }
+                objArray.push(obj);
+              });
+              return objArray;
+          }).then((objArray)=>{
+            this.setState({
+                 initialItems: objArray,
+                 items: objArray
+             })
+         })
+      })
     }
 
     filterList(event) {

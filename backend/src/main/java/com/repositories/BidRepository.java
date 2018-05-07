@@ -16,7 +16,13 @@ public interface BidRepository extends CrudRepository<Bid, Long> {
     List<Bid> findById(Integer id);
     Iterable<Bid> findByProjectId(Integer projectId);
     
-    @Query(value = "select p.id, budget, description, project_name, p.employer, p.status, skills, b.bid_amount from Project as p join Bid as b where p.id = b.project_id AND b.freelancer = :freelancer", nativeQuery = true)
+    @Query(value = "SELECT \n" + 
+    		"*\n" + 
+    		"FROM\n" + 
+    		"(select b.project_id, AVG(bid_amount), COUNT(b.id) from Bid as b GROUP BY b.project_id) t1\n" + 
+    		"INNER JOIN\n" + 
+    		"(select p.id, budget, description, project_name, p.employer, status, skills, b.bid_amount from Project as p join Bid as b where p.id = b.project_id AND b.freelancer = :freelancer) t2\n" + 
+    		"ON t1.project_id = t2.id", nativeQuery = true)
     List<Object> findByFreelancer(@Param ("freelancer") String freelancer);
 
 	@Query(value = "select AVG(bid_amount) from Bid where project_id = :projectId", nativeQuery = true)

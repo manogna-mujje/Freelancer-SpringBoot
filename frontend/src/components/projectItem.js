@@ -40,6 +40,8 @@ class ProjectItem extends Component {
             <li>
                 <Link id="project-name" to={linkToProject} ><strong>{this.props.project.projectName}</strong> </Link> <br />
                 <br />
+                <div className = "row"> 
+                <div className = "col">
                 <p>  <i> <strong> Project Description: </strong> </i> <br/>
                 {this.props.project.description} </p> <br />
                 <p> <i> <strong> Skills Required: </strong></i> <br/>
@@ -48,6 +50,8 @@ class ProjectItem extends Component {
                 $ {this.props.project.budget} </p>  <br />
                 <p> <i> <strong> Employer:</strong> </i> <br />
                    <Link to={linkToOwner}> {this.props.project.employer} </Link> </p> 
+                   </div>
+                   <div className = "col">
                   <p> <i> <strong> Status: </strong></i> <br/>
                   {this.props.project.status} </p> <br/>
                   <p> <i> <strong> Average Bid: </strong></i> <br/>
@@ -60,11 +64,12 @@ class ProjectItem extends Component {
                      $ {this.props.project.bidAmount} </p> : null
                   }
                   <br/>
-                <div> 
+                {/* <div> 
                   {
                     this.state.isFreelancer && 
-                    <button className="bid-button" onClick = {this.togglePopup.bind(this)}> Bid Now </button>
+                    <button className="btn btn-warning" onClick = {this.togglePopup.bind(this)}> Bid Now </button>
                   }
+                  </div> */}
                 </div>   
                
                 {this.state.showPopup ? 
@@ -77,6 +82,7 @@ class ProjectItem extends Component {
                   />
                   : null
                 }
+                </div>
             </li>
         </ul>
       </div>
